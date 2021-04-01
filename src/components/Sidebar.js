@@ -1,11 +1,32 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import AddIcon from '@material-ui/icons/Add';
-import styled from 'styled-components'
 import { sidebarItems } from '../data/SidebarData'
-import { channels } from '../data/Channels'
+import db from '../firebase';
 
-function Sidebar() {
+
+function Sidebar(props) {
+
+  const history = useHistory();
+
+  const addChannel = () => {
+    const promptName = prompt("Enter channel name")
+    if (promptName) {
+      db.collection('rooms').add({
+        name: promptName
+      })
+    }
+  }
+
+  const goToChannel = (id) => {
+    if (id) {
+      history.push(`/room/${id}`)
+    }
+  }
+
+
   return (
     <Container>
       <WorkspaceContainer>
@@ -18,8 +39,8 @@ function Sidebar() {
       </WorkspaceContainer>
       <MainChannels>
         {
-          sidebarItems.map((item) => (
-            <MainChannelItem>
+          sidebarItems.map((item, index) => (
+            <MainChannelItem key={index}>
               {item.icon}
               {item.text}
             </MainChannelItem>
@@ -29,12 +50,12 @@ function Sidebar() {
       <UserChannels>
         <NewChannel>
           Channels
-          <AddIcon />
+          <AddIcon onClick={addChannel} />
         </NewChannel>
         <ChannelList>
           {
-            channels.map((item) => (
-              <Channel>
+            props.rooms.map((item) => (
+              <Channel key={item.id} onClick={() => goToChannel(item.id)}>
                 # {item.name}
               </Channel>
             ))
@@ -119,6 +140,9 @@ const NewChannel = styled.div`
   display: flex;
   justify-content:space-between;
   align-items:center;
+  svg{
+    cursor:pointer;
+  }
 `
 const ChannelList = styled.div`
 `

@@ -3,7 +3,7 @@ import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import styled from 'styled-components'
 
-function Header() {
+function Header(props) {
   return (
     <Container>
       <Main>
@@ -17,10 +17,10 @@ function Header() {
       </Main>
       <User>
         <Name>
-          Onur Çoban
+          {props.user.name}
         </Name>
-        <Avatar>
-          <img src="https://www.w3schools.com/howto/img_avatar.png" alt="UserAvatar" />
+        <Avatar onClick={props.signOut}>
+          <img src={props.user.photo ? props.user.photo : "https://www.w3schools.com/howto/img_avatar.png"} />
         </Avatar>
       </User>
     </Container>
@@ -107,6 +107,7 @@ const Name = styled.div`
 const Avatar = styled.div`
   height:30px;
   width:30px;
+  cursor: pointer;
 img{
   border-radius: 4px;
   width:100%;
