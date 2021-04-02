@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import AddIcon from '@material-ui/icons/Add';
@@ -10,6 +10,7 @@ import db from '../firebase';
 function Sidebar(props) {
 
   const history = useHistory();
+  let location = useLocation();
 
   const addChannel = () => {
     const promptName = prompt("Enter channel name")
@@ -54,8 +55,9 @@ function Sidebar(props) {
         </NewChannel>
         <ChannelList>
           {
+
             props.rooms.map((item) => (
-              <Channel key={item.id} onClick={() => goToChannel(item.id)}>
+              <Channel className={`${item.id === location.pathname.split("/")[2] ? 'active' : ''}`} key={item.id} onClick={() => goToChannel(item.id)}>
                 # {item.name}
               </Channel>
             ))
@@ -145,6 +147,13 @@ const NewChannel = styled.div`
   }
 `
 const ChannelList = styled.div`
+  .active{
+    color: #fff;
+    background:#1164A3;
+    :hover{
+      background: #1164A3;
+    }
+  }
 `
 const Channel = styled.div`
   color: ${props => props.theme.sidebarMenuItemFontColor};

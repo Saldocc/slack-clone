@@ -4,6 +4,7 @@ import Chat from './components/Chat'
 import Login from './components/Login'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
 import styled, { ThemeProvider } from 'styled-components'
 import db from './firebase'
 import { auth, provider } from './firebase'
@@ -135,8 +136,10 @@ function App() {
                     <Chat user={user} />
                   </Route>
                   <Route path="/">
-                    Create or Select room
-                  {/* Create or select component */}
+                    <CreateOrSelect>
+                      Create or Select
+                      <AddCircleOutlineRoundedIcon />
+                    </CreateOrSelect>
                   </Route>
                 </Switch>
               </Main>
@@ -161,4 +164,7 @@ const Container = styled.div`
 const Main = styled.div`
   display:grid;
   grid-template-columns: 260px auto;
+`
+const CreateOrSelect = styled.div`
+  display:flex;
 `
