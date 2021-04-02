@@ -4,7 +4,7 @@ import Chat from './components/Chat'
 import Login from './components/Login'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import db from './firebase'
 import { auth, provider } from './firebase'
 
@@ -14,6 +14,7 @@ function App() {
 
   const [rooms, setRooms] = useState([])
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
+  const [theme, setTheme] = useState({})
 
   const getChannels = () => {
     db.collection('rooms').onSnapshot((snapshot) => {
@@ -30,33 +31,119 @@ function App() {
     })
   }
 
+  const themeSettings = () => {
+    let themeName
+    if (!JSON.parse(localStorage.getItem('theme'))) {
+      localStorage.setItem('theme', JSON.stringify(lightTheme))
+      setTheme(lightTheme)
+    } else {
+      themeName = JSON.parse(localStorage.getItem('theme'))
+      setTheme(themeName)
+    }
+  }
+
+  const toggleTheme = () => {
+    if (theme.themeName === 'lightTheme') {
+      localStorage.setItem('theme', JSON.stringify(darkTheme))
+      setTheme(darkTheme)
+    } else {
+      localStorage.setItem('theme', JSON.stringify(lightTheme))
+      setTheme(lightTheme)
+    }
+  }
+
   useEffect(() => {
     getChannels();
+    themeSettings();
   }, [])
+
+
+  const lightTheme = {
+    themeName: "lightTheme",
+
+    headerBgColor: '#350d36',
+    headerFontColor: '#FFFFFF',
+    headerContainerBShadow: '0 1px 0 0 rgb(255 255 255 / 10%)',
+
+    searchInputBgColor: '#431e44',
+    searchInputBShadow: 'inset 0 0 0 1px rgb(104 74 104)',
+    searchInputFontColor: '#FFFFFF',
+
+    sidebarBgColor: '#3F0E40',
+    sidebarFontColor: '#FFFFFF',
+    sidebarBorderColor: '#522653',
+    sidebarNewMessageColor: '#3F0E40',
+    sidebarNewMessageBgColor: '#FFFFFF',
+    sidebarMenuItemFontColor: '#bcabbc',
+    sidebarMenuItemHoverColor: '#350D36',
+
+    chatBgColor: '#f8f9fa',
+    chatBorderColor: '#e2e2e2',
+    chatHeaderDarkFontColor: '#4a4a4a',
+    chatHeaderLightFontColor: '#606060',
+    chatMessageHoverColor: '#f0f0f0',
+    chatMessagelightColor: '#616061',
+    chatMessageMainColor: '#000000',
+    chatInputBorderColor: '#8D8D8E'
+
+  }
+
+  const darkTheme = {
+
+    themeName: "darkTheme",
+
+    headerBgColor: '#252525',
+    headerFontColor: '#FFFFFF',
+    headerContainerBShadow: '0 1px 0 0 rgb(0 0 0  / 10%)',
+
+    searchInputBgColor: '#333333',
+    searchInputBShadow: 'inset 0 0 0 1px #333333',
+    searchInputFontColor: '#FFFFFF',
+
+    sidebarBgColor: '#333333',
+    sidebarFontColor: '#FFFFFF',
+    sidebarBorderColor: '#252525',
+    sidebarNewMessageColor: '#3F0E40',
+    sidebarNewMessageBgColor: '#EEEEEE',
+    sidebarMenuItemFontColor: '#B6B5B5',
+    sidebarMenuItemHoverColor: '#252525',
+
+    chatBgColor: '#454545',
+    chatBorderColor: '#898888',
+    chatHeaderDarkFontColor: '#EEEEEE',
+    chatHeaderLightFontColor: '#B6B5B5',
+    chatMessageHoverColor: '#555555',
+    chatMessagelightColor: '#B6B5B5',
+    chatMessageMainColor: '#EEEEEE',
+    chatInputBorderColor: '#333333'
+  }
+
 
   return (
     <div className="App">
-      <Router>
-        {!user ?
-          <Login setUser={setUser} />
-          :
-          <Container>
-            <Header signOut={signOut} user={user} />
-            <Main>
-              <Sidebar rooms={rooms} />
-              <Switch>
-                <Route path="/room/:channelId">
-                  <Chat user={user} />
-                </Route>
-                <Route path="/">
-                  Create or Select room
+      <ThemeProvider theme={theme}>
+        <Router>
+          {!user ?
+            <Login setUser={setUser} />
+            :
+            <Container>
+              <Header signOut={signOut} toggleTheme={toggleTheme} user={user} />
+              <Main>
+                <Sidebar rooms={rooms} />
+                <Switch>
+                  <Route path="/room/:channelId">
+                    <Chat user={user} />
+                  </Route>
+                  <Route path="/">
+                    Create or Select room
                   {/* Create or select component */}
-                </Route>
-              </Switch>
-            </Main>
-          </Container>
-        }
-      </Router>
+                  </Route>
+                </Switch>
+              </Main>
+            </Container>
+          }
+        </Router>
+      </ThemeProvider>
     </div >
   );
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import SendRoundedIcon from '@material-ui/icons/SendRounded';
 
+
 function ChatInput({ sendMessage }) {
 
   const [inputValue, setInputValue] = useState("")
@@ -33,10 +34,11 @@ export default ChatInput
 
 const Container = styled.div`
   padding: 0 20px 24px;
+  color:${props => props.theme.chatMessageMainColor};
 `
 
 const InputContainer = styled.div`
-  border: 1px solid #8D8D8E;
+  border: 1px solid ${props => props.theme.chatInputBorderColor};
   border-radius:4px;
 
   form{
@@ -50,6 +52,7 @@ const InputContainer = styled.div`
       border:none;
       font-size:13px;
       height:100%;
+      color:${props => props.theme.chatMessageMainColor};
       background-color:transparent;
       &:focus{
         outline:none;
@@ -67,7 +70,7 @@ const SendButton = styled.button`
   border-radius: 4px;
   display: inline-flex;
   justify-content: center;
-  transition: opacity .2s,background-color .2s,color .2s;
+  transition: filter .2s;
   border:none;
   cursor: pointer;
   svg{
@@ -75,7 +78,7 @@ const SendButton = styled.button`
     width: 16px;
   }
   &:hover{
-    background: #148567;
+    filter:brightness(1.1);
   }
   &:focus{
     outline: none;

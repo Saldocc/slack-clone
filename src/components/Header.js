@@ -4,8 +4,13 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import styled from 'styled-components'
 
 function Header(props) {
+
   return (
     <Container>
+      <ToggleSwitch>
+        <input onChange={props.toggleTheme} type="checkbox" id="switch" />
+        <label for="switch">Toggle</label>
+      </ToggleSwitch>
       <Main>
         <AccessTimeIcon />
         <SearchContainer>
@@ -35,11 +40,60 @@ const Container = styled.div`
   display:flex;
   align-items:center;
   justify-content:center;
-  background: #350d36;
-  color: #FFFFFF;
-  box-shadow: 0 1px 0 0 rgb(255 255 255 / 10%);
+  background: ${props => props.theme.headerBgColor};
+  color: ${props => props.theme.headerFontColor};
+  box-shadow: ${props => props.theme.headerContainerBShadow};
   width:100%;
   z-index:10;
+`
+
+const ToggleSwitch = styled.div`
+
+display:flex;
+padding-left:16px;
+
+input[type=checkbox]{
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 40px;
+	height: 22px;
+	background: grey;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+label:after {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 16px;
+	height: 16px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+input:checked + label {
+	background: #431e44;
+}
+
+input:checked + label:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+label:active:after {
+	width: 20px;
+}
+
 `
 
 const Main = styled.div`
@@ -85,9 +139,9 @@ const Search = styled.div`
       border-radius: 6px;
       height:100%;
       padding:8px;
-      background: rgb(67,30,68);
-      box-shadow: inset 0 0 0 1px rgb(104 74 104);
-      color: #FFFFFF;
+      background: ${props => props.theme.searchInputBgColor};
+      box-shadow: ${props => props.theme.searchInputBShadow};
+      color: ${props => props.theme.searchInputFontColor};
       border:none;
       font-size: 13px;
       line-height: 1.38463;

@@ -73,8 +73,8 @@ export default Sidebar
 
 
 const Container = styled.div`
-  background: #3F0E40;
-  color: #FFFFFF;
+  background: ${props => props.theme.sidebarBgColor};
+  color: ${props => props.theme.sidebarFontColor};
 `
 
 const WorkspaceContainer = styled.div`
@@ -83,7 +83,7 @@ const WorkspaceContainer = styled.div`
  justify-content:space-between;
  position: relative;
  height: 64px;
- border-bottom: 1px solid rgb(82,38,83);;
+ border-bottom: 1px solid ${props => props.theme.sidebarBorderColor};
  padding:0 19px;
 `
 
@@ -97,9 +97,9 @@ const NewMessage = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #FFFFFF;
-    color: #3F0E40;
-    fill: #3F0E40;
+    background-color: ${props => props.theme.sidebarNewMessageBgColor};
+    color: ${props => props.theme.sidebarNewMessageColor};
+    fill: ${props => props.theme.sidebarNewMessageColor};
     cursor: pointer;
     svg{
       height: 16px;
@@ -111,7 +111,7 @@ const MainChannels = styled.div`
 `
 
 const MainChannelItem = styled.div`
-    color: rgb(188,171,188);
+    color: ${props => props.theme.sidebarMenuItemFontColor};
     padding: 0 16px;
     height: 28px;
     line-height: 28px;
@@ -126,7 +126,7 @@ const MainChannelItem = styled.div`
       margin-right:4px;
     }
     :hover{
-      background: #350D36;
+      background: ${props => props.theme.sidebarMenuItemHoverColor};
     }
 `
 
@@ -134,7 +134,7 @@ const UserChannels = styled.div`
   margin-top:16px;
 `
 const NewChannel = styled.div`
-  color: rgb(188,171,188);
+  color: ${props => props.theme.sidebarMenuItemFontColor};
   padding: 0 16px;
   height: 28px;
   display: flex;
@@ -147,7 +147,7 @@ const NewChannel = styled.div`
 const ChannelList = styled.div`
 `
 const Channel = styled.div`
-  color: rgb(188,171,188);
+  color: ${props => props.theme.sidebarMenuItemFontColor};
   padding: 0 16px;
   height: 28px;
   line-height: 28px;
@@ -155,6 +155,6 @@ const Channel = styled.div`
   cursor: pointer;
   user-select: none;
     :hover{
-      background: #350D36;
+      background: ${props => props.theme.sidebarMenuItemHoverColor};
     }
 `

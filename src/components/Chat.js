@@ -99,7 +99,7 @@ export default Chat
 const Container = styled.div`
   display:grid;
   grid-template-rows: 64px auto min-content;
-  background-color:#f8f9fa;
+  background-color: ${props => props.theme.chatBgColor};
   min-height:0;
 `
 
@@ -108,7 +108,7 @@ const ChatHeader = styled.div`
   align-items: center;
   justify-content:space-between;
   padding: 0 20px;
-  border-bottom: 1px solid #e2e2e2;
+  border-bottom: 1px solid ${props => props.theme.chatBorderColor};
 `
 
 const Channel = styled.div`
@@ -119,35 +119,50 @@ const Channel = styled.div`
 
 const ChannelName = styled.div`
   font-weight: 900;
-  color:#4a4a4a;
+  color:${props => props.theme.chatHeaderDarkFontColor};
 `
 
 const ChannelDescription = styled.div`
   font-size: 13px;
-  color:#606060;
+  color:${props => props.theme.chatHeaderLightFontColor};
 `
 
 const ChannelDetails = styled.div`
   display: flex;
   align-items: center;
-  color:#606060;
+  color:${props => props.theme.chatHeaderLightFontColor};
   font-weight:600;
   svg{
     margin-left:8px;
   }
 `
 
-
 const ChatMessagesContainer = styled.div`
   display:flex;
   overflow-y: scroll;
   scroll-behavior: smooth;
+
+
+::-webkit-scrollbar {
+    width: 0.85em;
+}
+ 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+::-webkit-scrollbar-thumb {
+  background-color: #B6B5B5;
+  border-radius:5px;
+}
 `
 
 const ChatMessages = styled.div`
  margin-top:auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-end; 
+  width: 100%;
+  padding-bottom:10px;
 `
 

@@ -31,9 +31,9 @@ const Container = styled.div`
   display:flex;
   align-items: flex-start;
   padding: 8px 20px;
-
+  color:${props => props.theme.chatMessageMainColor};
   &:hover{
-    background: #f0f0f0;
+    background: ${props => props.theme.chatMessageHoverColor};
   }
 `
 
@@ -68,7 +68,7 @@ const Name = styled.span`
 
 const DateSpan = styled.span`
   font-size: 12px;
-  color:#616061;
+  color: ${props => props.theme.chatMessagelightColor};
 `
 
 const Text = styled.span`
