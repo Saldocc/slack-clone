@@ -8,8 +8,8 @@ function Header(props) {
   return (
     <Container>
       <ToggleSwitch>
-        <input onChange={props.toggleTheme} type="checkbox" id="switch" />
-        <label for="switch">Toggle</label>
+        <input onChange={props.toggleTheme} type="checkbox" id="switch" checked={props.themeStatus === "lightTheme" ? false : true} />
+        <label htmlFor="switch">Toggle</label>
       </ToggleSwitch>
       <Main>
         <AccessTimeIcon />
@@ -145,11 +145,8 @@ const Search = styled.div`
       border:none;
       font-size: 13px;
       line-height: 1.38463;
+      font-family: 'Lato', sans-serif;
       font-weight: 400;
-    }
-
-    input:focus{
-      outline:none;
     }
 `
 

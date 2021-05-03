@@ -78,15 +78,14 @@ function App() {
     sidebarMenuItemFontColor: '#bcabbc',
     sidebarMenuItemHoverColor: '#350D36',
 
-    chatBgColor: '#f8f9fa',
+    chatBgColor: '#ffffff',
     chatBorderColor: '#e2e2e2',
     chatHeaderDarkFontColor: '#4a4a4a',
     chatHeaderLightFontColor: '#606060',
     chatMessageHoverColor: '#f0f0f0',
     chatMessagelightColor: '#616061',
     chatMessageMainColor: '#000000',
-    chatInputBorderColor: '#8D8D8E'
-
+    chatInputBorderColor: '#8D8D8E',
   }
 
   const darkTheme = {
@@ -116,9 +115,9 @@ function App() {
     chatMessageHoverColor: '#555555',
     chatMessagelightColor: '#B6B5B5',
     chatMessageMainColor: '#EEEEEE',
-    chatInputBorderColor: '#333333'
-  }
+    chatInputBorderColor: '#333333',
 
+  }
 
   return (
     <div className="App">
@@ -128,16 +127,16 @@ function App() {
             <Login setUser={setUser} />
             :
             <Container>
-              <Header signOut={signOut} toggleTheme={toggleTheme} user={user} />
+              <Header signOut={signOut} toggleTheme={toggleTheme} themeStatus={theme.themeName} user={user} />
               <Main>
-                <Sidebar rooms={rooms} />
+                <Sidebar rooms={rooms} user={user} />
                 <Switch>
                   <Route path="/room/:channelId">
                     <Chat user={user} />
                   </Route>
                   <Route path="/">
-                    <CreateOrSelect>
-                      Create or Select
+                    <CreateOrSelect >
+                      <h1>Create or Select any channel</h1>
                       <AddCircleOutlineRoundedIcon />
                     </CreateOrSelect>
                   </Route>
@@ -167,4 +166,19 @@ const Main = styled.div`
 `
 const CreateOrSelect = styled.div`
   display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  font-size:20px;
+  color:#B6B5B5;
+
+  h1 {
+    text-align:center;
+    width:30%;
+  }
+
+  svg{
+    margin-top:20px;
+    font-size:50px;
+  }
 `

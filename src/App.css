@@ -19,3 +19,120 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
 }
+
+input:focus,
+button:focus {
+	outline: none;
+}
+
+input,
+button {
+	font-family: 'Lato', sans-serif;
+	font-variant-ligatures: common-ligatures;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+}
+
+.display-block {
+	display: block;
+}
+
+.display-none {
+	display: none;
+}
+
+.display-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.form-content {
+	display: flex;
+	flex-direction: column;
+}
+
+.form-content label {
+	margin-bottom: 10px;
+	color: #383838;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.form-content label input,
+.form-content label textarea {
+	padding: 8px 12px;
+	margin-top: 8px;
+	border: 1px solid rgb(136 136 136);
+	transition: border 80ms ease-out, box-shadow 80ms ease-out;
+	font-family: 'Lato', sans-serif;
+	width: 100%;
+	border-radius: 4px;
+	font-size: 18px;
+	line-height: 1.33334;
+	font-weight: 400;
+	color: #291b1c;
+}
+
+.form-content label small {
+	padding-top: 4px;
+	font-size: 13px;
+	line-height: 1.38463;
+	font-weight: 400;
+	color: #262626;
+}
+
+.form-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 24px 0;
+}
+
+.learn-more-link {
+	display: flex;
+	align-items: center;
+	color: #979797;
+}
+
+.learn-more-link svg {
+	width: 15px;
+}
+
+.learn-more-link a {
+	color: #979797;
+	text-decoration: none;
+	margin-left: 8px;
+}
+
+.learn-more-link a:hover {
+	text-decoration: underline;
+}
+
+.form-footer button {
+	font-family: 'Lato', sans-serif;
+	margin-left: 12px;
+	transition: all 80ms linear;
+	background: #007a5a;
+	color: #fff;
+	font-weight: 900;
+	border: none;
+	padding: 9px 12px;
+	border-radius: 6px;
+	cursor: pointer;
+}
+
+.form-footer button:disabled,
+.form-footer button[disabled],
+.form-footer button[disabled]:hover {
+	cursor: default;
+	background-color: #dddddd;
+	color: #4d4c4d;
+	box-shadow: none;
+}
+
+.form-footer button:hover {
+	color: #fff;
+	background: #148567;
+	box-shadow: 0 1px 4px rgb(0 0 0 / 30%);
+}

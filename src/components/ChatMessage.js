@@ -45,10 +45,16 @@ const UserAvatar = styled.div`
   margin-top:4px;
 
   img{
-    border-radius:2px;
     width:36px;
     height:36px;
     object-fit:cover;
+    margin-right: 8px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background-color: #f6f6f6;
+    position: relative;
+    border-radius: 4px;
   }
 `
 

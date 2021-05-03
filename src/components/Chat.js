@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
+import Details from './Details'
 import db from '../firebase'
 import firebase from 'firebase'
 import { useParams } from 'react-router-dom'
@@ -12,8 +13,10 @@ function Chat({ user }) {
   const messagesEndRef = useRef(null)
 
   let { channelId } = useParams();
+  const [users, setUsers] = useState([])
   const [channel, setChannel] = useState()
   const [messages, setMessages] = useState([])
+  const [detailShow, setDetailShow] = useState(false)
 
   const getMessages = () => {
     db.collection('rooms')
@@ -23,6 +26,7 @@ function Chat({ user }) {
       .onSnapshot((snapshot) => {
         let messages = snapshot.docs.map((doc) => doc.data())
         setMessages(messages)
+        setUsers([])
       })
   }
 
@@ -35,10 +39,12 @@ function Chat({ user }) {
   }
 
   const sendMessage = (text) => {
-    if (channelId) {
+    let remText = text.replace(/ /g, "");
+    if (channelId && remText.length) {
       let messagePack = {
         text: text,
         user: user.name,
+        userMail: user.email,
         userImage: user.photo,
         timestamp: firebase.firestore.Timestamp.now()
       }
@@ -53,6 +59,27 @@ function Chat({ user }) {
     }, 100);
   }
 
+  const detailToggle = () => {
+    setDetailShow(!detailShow)
+    chatMembersFind()
+  }
+
+  const chatMembers = (data, key) => {
+    return [
+      ...new Map(data.map(item => [key(item), item])).values()
+    ]
+  }
+
+  const chatMembersFind = () => {
+    let obj = JSON.stringify(chatMembers(messages, message => message.userImage))
+
+    try {
+      setUsers(JSON.parse(obj));
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+
   useEffect(() => {
     getChannel()
     getMessages()
@@ -60,35 +87,40 @@ function Chat({ user }) {
   }, [channelId])
 
   return (
-    <Container>
-      <ChatHeader>
-        <Channel>
-          <ChannelName>
-            # {channel && channel.name}
-          </ChannelName>
-          <ChannelDescription>
-            About games in development
-          </ChannelDescription>
-        </Channel>
-        <ChannelDetails>
-          Details <InfoOutlinedIcon />
-        </ChannelDetails>
-      </ChatHeader>
-      <ChatMessagesContainer ref={messagesEndRef}>
-        <ChatMessages>
-          {
-            messages.length > 0 && messages.map((data, index) => (
-              <ChatMessage key={index}
-                text={data.text}
-                name={data.user}
-                image={data.userImage}
-                timestamp={data.timestamp}
-              />
-            ))
-          }
-        </ChatMessages>
-      </ChatMessagesContainer>
-      <ChatInput sendMessage={sendMessage} />
+    <Container detailShow={detailShow}>
+      <ChatContainer>
+        <ChatHeader>
+          <Channel>
+            <ChannelName>
+              # {channel && channel.name}
+            </ChannelName>
+            <ChannelDescription>
+              {(channel && channel.description) ? channel.description : <AddTopic>Add Description</AddTopic>}
+            </ChannelDescription>
+          </Channel>
+          <ChannelDetails onClick={detailToggle}>
+            <InfoOutlinedIcon />
+          </ChannelDetails>
+        </ChatHeader>
+        <ChatMessagesContainer ref={messagesEndRef}>
+          <ChatMessages>
+            {
+              messages.length > 0 && messages.map((data, index) => (
+                <ChatMessage key={index}
+                  text={data.text}
+                  name={data.user}
+                  image={data.userImage}
+                  timestamp={data.timestamp}
+                />
+              ))
+            }
+          </ChatMessages>
+        </ChatMessagesContainer>
+        <ChatInput sendMessage={sendMessage} />
+      </ChatContainer>
+      {
+        detailShow && < Details channel={channel} users={users} />
+      }
     </Container>
   )
 }
@@ -97,10 +129,15 @@ export default Chat
 
 
 const Container = styled.div`
+ display:grid;
+ grid-template-columns:  ${props => props.detailShow ? "auto 400px" : "auto"}
+`
+
+const ChatContainer = styled.div`
   display:grid;
   grid-template-rows: 64px auto min-content;
-  background-color: ${props => props.theme.chatBgColor};
   min-height:0;
+  border-right: 1px solid ${props => props.theme.chatBorderColor};
 `
 
 const ChatHeader = styled.div`
@@ -127,19 +164,40 @@ const ChannelDescription = styled.div`
   color:${props => props.theme.chatHeaderLightFontColor};
 `
 
+const AddTopic = styled.div`
+  cursor: pointer;
+  font-size: 13px;
+  color:${props => props.theme.chatHeaderLightFontColor};
+`
+
 const ChannelDetails = styled.div`
   display: flex;
   align-items: center;
   color:${props => props.theme.chatHeaderLightFontColor};
   font-weight:600;
+  background:transparent;
+  align-items: center;
+  border-radius: 4px;
+  display: inline-flex;
+  justify-content: center;
+  border:none;
+  height:36px;
+  width:36px;
+  cursor:pointer;
+
+  &:hover{
+    background: #f6f6f6;
+  }
+
   svg{
-    margin-left:8px;
+    width: 20px;
+    height: 20px;
   }
 `
 
 const ChatMessagesContainer = styled.div`
   display:flex;
-  overflow-y: scroll;
+  overflow-y: auto;
   scroll-behavior: smooth;
 
 
@@ -158,11 +216,18 @@ const ChatMessagesContainer = styled.div`
 `
 
 const ChatMessages = styled.div`
- margin-top:auto;
+  margin-top:auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end; 
   width: 100%;
   padding-bottom:10px;
 `
+
+
+
+
+
+
+
 

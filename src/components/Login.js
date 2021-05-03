@@ -10,6 +10,7 @@ function Login(props) {
         const newUser = {
           name: result.user.displayName,
           photo: result.user.photoURL,
+          email: result.user.email
         }
         localStorage.setItem('user', JSON.stringify(newUser))
         props.setUser(newUser)
@@ -23,8 +24,7 @@ function Login(props) {
     <Container>
       <Content>
         <SlackLogo>
-          <h1>Sing in</h1>
-          <img src="http://assets.stickpng.com/images/5cb480b85f1b6d3fbadece78.png" />
+          <img src="/images/logo.png" alt="logo" />
         </SlackLogo>
         <SignInButton onClick={() => signIn()}>
           Sing in with Google
@@ -53,7 +53,7 @@ const Content = styled.div`
   align-items:center;
   flex-direction:column;
   background:#fff;
-  padding:120px;
+  padding:100px;
   border-radius:10px;
   box-shadow:  9px 9px 20px #d5d5d5, 9px -9px 20px #ebebeb;
 `
@@ -62,15 +62,14 @@ const SlackLogo = styled.div`
   display:flex;
   align-items:center;
   justify-content:center;
-  padding-left:30px;
 
   img{
-    height:100px;
+    height:150px;
   }
 `
 
 const SignInButton = styled.button`
-  margin-top:50px;
+  margin-top:70px;
   background: #007a5a;
   color: #fff;
   border-radius: 4px;
